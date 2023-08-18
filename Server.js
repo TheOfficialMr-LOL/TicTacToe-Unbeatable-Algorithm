@@ -10,6 +10,7 @@ var url=require("url");
 var express=require("express");
 var app=express();
 app.use(express.json());
+const port=process.env.PORT || 3000
 
 var publicDir=require("path").join(__dirname, "/images");
 app.use(express.static(publicDir));
@@ -52,8 +53,8 @@ app.use("/", (req, res) => {
 
 
     
-app.listen(443, function() {
+app.listen(port, function() {
 
-    console.log("Connected to port 443");
+    console.log("Connected to port ${port}");
 
 });
