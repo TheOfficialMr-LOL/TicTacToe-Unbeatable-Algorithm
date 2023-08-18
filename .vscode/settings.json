@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/da7a84f0-591d-48b2-ba70-7c28173678ed/resourceGroups/TicTacToe-Unbeatable_group/providers/Microsoft.Web/sites/TicTacToe-Unbeatable",
+    "appService.deploySubpath": "."
+}
