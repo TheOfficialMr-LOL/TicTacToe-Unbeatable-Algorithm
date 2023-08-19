@@ -16,6 +16,7 @@ var publicDir=require("path").join(__dirname, "/images");
 app.use(express.static(publicDir));
 
 var events=require("events");
+const { json } = require("body-parser");
 //C:/Users/rjini/OneDrive/Desktop/TicTacToe_Web_Version/Test.py
 
 
@@ -55,6 +56,6 @@ app.use("/", (req, res) => {
     
 app.listen(port, function() {
 
-    console.log("Connected to port ${port}");
+    console.log("Connected to port "+ port.toString());
 
 });
