@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<html onclick="playClick();">
+<body>
+
+
+
+
+<style>
+#hello {
+    overflow: auto;
+    width: 100px;
+    height: 100px;
+}
+#hello::-webkit-scrollbar{display: none;}
+</style>
+
+
+<div id="hello">Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. Some text to enable scrolling.. </div>
+
+
+
+
+
+
+<audio id="audio" controls loop hidden>
+    <source src="Around-the-Bend.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="click" controls hidden>
+    <source src="ButtonClick.wav" type="audio/wav">
+</audio>
+
+
+<button style="text-align: center;" onclick="playAudio();">Play the Sound!</button>
+<button style="text-align: center;" onclick="document.getElementById('audio').pause();">Stop sound!</button>
+
+<script>
+function playAudio() {
+    document.getElementById("audio").load();
+    document.getElementById("audio").play();
+}
+
+function playClick() {
+    document.getElementById("click").load();
+    document.getElementById("click").play();
+}
+
+</script>
+
+</body>
+</html>

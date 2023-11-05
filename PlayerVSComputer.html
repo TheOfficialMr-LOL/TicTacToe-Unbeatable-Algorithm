@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<html onclick="if(muteClicks!=true){playClick();}">
+<title>Player_VS_Computer</title>
+<body margin:0 onload="document.getElementById('Message').innerHTML=''; loadCookies();">
+
+
+<style>
+
+
+
+.prevent-select {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+#TicTacToeBoardBackground{
+    background-image: url("BackgroundImage_ClassicGrey.png");
+}
+
+
+
+#icons:hover{color: #ff0000;}
+
+#homeButton{
+border-radius: 15px;
+background-color: #797575;
+box-shadow: 0 7px #464444;
+color: #fff;
+font-size: 30px;
+display: block;
+}
+#homeButton:hover{background-color: #585656}
+#homeButton:active{
+
+background-color: #464444;
+box-shadow: 0 5px #464444;
+transform:translateY(4px);
+
+}
+
+
+#startButton{
+
+    border-radius: 15px;
+    background-color: #04AA6d;
+    box-shadow: 0 7px #06764b;
+    color: #fff;
+    font-size: 30px;
+    display: block;
+}
+#startButton:hover{background-color: #3e8e41}
+#startButton:active{
+
+    background-color: #3e8e41;
+    box-shadow: 0 5px #066c45;
+    transform:translateY(4px);
+
+}
+
+
+#restartButton{
+
+display: none;
+border-radius: 15px;
+background-color: #FF0000;
+box-shadow: 0 7px #a10606;
+color: #fff;
+font-size: 30px;
+display: block;
+}
+#restartButton:hover{background-color: #ce1515}
+#restartButton:active{
+
+background-color: #ce1515;
+box-shadow: 0 5px #a10606;
+transform:translateY(4px);
+
+}
+
+.modal-body {padding: 2px 16px;}/*2px 16px*/
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 10; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color:#ffffff;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 60%;
+  min-width: 380px;
+  height: 10%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  border-radius: 50px;
+}
+
+
+
+.Settings_Container{
+
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 10; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+
+.settings_box{
+
+    top:8%;
+    position: relative;
+    background-color:#fff;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 300px;
+    height: 400px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    border-radius: 10px;
+
+}
+
+#Settings_button{
+    background-color: #3cac81; 
+    border-width: 0;
+    width: 100px;
+    height: 60px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 15px;
+}
+#Settings_button:hover{background-color: #287155;}
+
+
+#closeButton{color: #ff0000;}
+#closeButton:hover{color: rgb(129, 0, 0);}
+
+#GamePiece_list{
+    
+    overflow: auto;
+    background-color: #fff;
+    width: 100%;
+    height: 260px;
+    border-radius: 15px;
+    padding-top: 90px;
+}
+#GamePiece_list::-webkit-scrollbar{display: none;}
+#GamePiece_list{-ms-overflow-style: none; scrollbar-width: none;}
+
+.GamePiece_list_button{
+    position: relative;
+    width: 70px;
+    height: 70px;
+    background-color: #cccbcb;
+    border-width: 0;
+    border-radius: 10px;
+}
+.GamePiece_list_button:hover{background-color: #8e8b8b;}
+
+
+
+#GamePiece_select{
+    background-color: #3e8e41;
+}
+#GamePiece_select:hover{background-color: #365c38;}
+
+
+
+#Background_image_list{
+    display: none;
+    background-color: #fff;
+    width: 100%;
+    height: 320px;
+    border-radius: 15px;
+    padding-top: 90px;
+}
+#Background_image_ClassicGrey_Selector{display: none;}
+#Background_image_Brickwall_Selector{display: none;}
+#Background_image_StoneTiles_Selector{display: none;}
+#Background_image_WoodenPlanks_Selector{display: none;}
+
+#Audio {
+
+    transform: translateY(60px);
+    display: none;
+    background-color: #fff;
+    width: 100%;
+    height: 360px;
+    border-radius: 15px;
+}
+
+#No_Access {
+    display: none;
+    position: absolute;
+    z-index: 10;
+    top: 70px;
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.553);
+    width: 100%;
+    height: 300px;
+    border-radius: 25px;
+}
+
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+
+
+#slidercontainer{
+    width: 100px;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch .toggleSwitch { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.allAudio {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.allAudio:before {
+  position: absolute;
+  font-weight: bold;
+  color: #acacac;
+  line-height: 25px;
+  text-align: center;
+  content: "Off";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.toggleSwitch:checked + .allAudio {
+  background-color: #2196F3;
+}
+
+.toggleSwitch:focus + .allAudio {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+.toggleSwitch:checked + .allAudio:before {
+    content: "On";
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.allAudio.round {
+  border-radius: 34px;
+}
+
+.allAudio.round:before {
+  border-radius: 50%;
+}
+
+
+
+
+#statistics{display: none;}
+
+
+</style>
+
+
+<h1 style="text-align: center;" class="prevent-select">Player VS Computer</h1>
+
+
+
+<div id="TicTacToeBoardBackground" style="width: 500px; height: 500px; background-color: rgb(221, 221, 221); margin: auto; border-radius: 20px;" class="prevent-select">
+
+<img src="./TicTacToeBoardTemplate.png" class="prevent-select" alt="Tic tac toe board template" style="z-index: 2; position: absolute; padding-top: 8px; padding-left: 16px;" usemap="#workmap" >
+
+<!-- Rendering Game piece X-->
+<img src="GamePieceX.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 45px; display: none; position: absolute;" id="GamePieceX1">
+<img src="GamePieceX.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 45px; display: none; position: absolute;" id="GamePieceX2">
+<img src="GamePieceX.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 45px; display: none; position: absolute;" id="GamePieceX3">
+
+<img src="GamePieceX.png" alt="GamePieceX4" style="width: 100px; padding-left: 35px; padding-top: 200px; display: none; position: absolute;" id="GamePieceX4">
+<img src="GamePieceX.png" alt="GamePieceX5" style="width: 100px; padding-left: 200px; padding-top: 200px; display: none; position: absolute;" id="GamePieceX5">
+<img src="GamePieceX.png" alt="GamePieceX6" style="width: 100px; padding-left: 365px; padding-top: 200px; display: none; position: absolute;" id="GamePieceX6">
+
+<img src="GamePieceX.png" alt="GamePieceX7" style="width: 100px; padding-left: 35px; padding-top: 355px; display: none; position: absolute;" id="GamePieceX7">
+<img src="GamePieceX.png" alt="GamePieceX8" style="width: 100px; padding-left: 200px; padding-top: 355px; display: none; position: absolute;" id="GamePieceX8">
+<img src="GamePieceX.png" alt="GamePieceX9" style="width: 100px; padding-left: 365px; padding-top: 355px; display: none; position: absolute;" id="GamePieceX9">
+<!--End-->
+
+
+<!-- Rendering Game piece O-->
+<img src="GamePieceO.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 45px; display: none; position: absolute;" id="GamePieceO1">
+<img src="GamePieceO.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 45px; display: none; position: absolute;" id="GamePieceO2">
+<img src="GamePieceO.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 45px; display: none; position: absolute;" id="GamePieceO3">
+
+<img src="GamePieceO.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 200px; display: none; position: absolute;" id="GamePieceO4">
+<img src="GamePieceO.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 200px; display: none; position: absolute;" id="GamePieceO5">
+<img src="GamePieceO.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 200px; display: none; position: absolute;" id="GamePieceO6">
+
+<img src="GamePieceO.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 355px; display: none; position: absolute;" id="GamePieceO7">
+<img src="GamePieceO.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 355px; display: none; position: absolute;" id="GamePieceO8">
+<img src="GamePieceO.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 355px; display: none; position: absolute;" id="GamePieceO9">
+<!--End-->
+
+
+<!-- Rendering Game piece Pretzel-->
+<img src="GamePiecePretzel.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 45px; display: none; position: absolute;" id="GamePiecePretzel1">
+<img src="GamePiecePretzel.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 45px; display: none; position: absolute;" id="GamePiecePretzel2">
+<img src="GamePiecePretzel.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 45px; display: none; position: absolute;" id="GamePiecePretzel3">
+
+<img src="GamePiecePretzel.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 200px; display: none; position: absolute;" id="GamePiecePretzel4">
+<img src="GamePiecePretzel.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 200px; display: none; position: absolute;" id="GamePiecePretzel5">
+<img src="GamePiecePretzel.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 200px; display: none; position: absolute;" id="GamePiecePretzel6">
+
+<img src="GamePiecePretzel.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 355px; display: none; position: absolute;" id="GamePiecePretzel7">
+<img src="GamePiecePretzel.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 355px; display: none; position: absolute;" id="GamePiecePretzel8">
+<img src="GamePiecePretzel.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 355px; display: none; position: absolute;" id="GamePiecePretzel9">
+<!--End-->
+
+
+<!--Rendering Game Piece Doughnut-->
+<img src="GamePieceDoughnut.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 45px; display: none; position: absolute;" id="GamePieceDoughnut1">
+<img src="GamePieceDoughnut.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 45px; display: none; position: absolute;" id="GamePieceDoughnut2">
+<img src="GamePieceDoughnut.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 45px; display: none; position: absolute;" id="GamePieceDoughnut3">
+
+<img src="GamePieceDoughnut.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 200px; display: none; position: absolute;" id="GamePieceDoughnut4">
+<img src="GamePieceDoughnut.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 200px; display: none; position: absolute;" id="GamePieceDoughnut5">
+<img src="GamePieceDoughnut.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 200px; display: none; position: absolute;" id="GamePieceDoughnut6">
+
+<img src="GamePieceDoughnut.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 355px; display: none; position: absolute;" id="GamePieceDoughnut7">
+<img src="GamePieceDoughnut.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 355px; display: none; position: absolute;" id="GamePieceDoughnut8">
+<img src="GamePieceDoughnut.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 355px; display: none; position: absolute;" id="GamePieceDoughnut9">
+<!--End-->
+
+
+<!--Rendering Game Piece 3D O-->
+<img src="GamePiece3DO.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 45px; display: none; position: absolute;" id="GamePiece3DO1">
+<img src="GamePiece3DO.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 45px; display: none; position: absolute;" id="GamePiece3DO2">
+<img src="GamePiece3DO.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 45px; display: none; position: absolute;" id="GamePiece3DO3">
+
+<img src="GamePiece3DO.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 200px; display: none; position: absolute;" id="GamePiece3DO4">
+<img src="GamePiece3DO.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 200px; display: none; position: absolute;" id="GamePiece3DO5">
+<img src="GamePiece3DO.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 200px; display: none; position: absolute;" id="GamePiece3DO6">
+
+<img src="GamePiece3DO.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 355px; display: none; position: absolute;" id="GamePiece3DO7">
+<img src="GamePiece3DO.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 355px; display: none; position: absolute;" id="GamePiece3DO8">
+<img src="GamePiece3DO.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 355px; display: none; position: absolute;" id="GamePiece3DO9">
+<!--End-->
+
+
+<!--Rendering Game Piece 3D X-->
+<img src="GamePiece3DX.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 45px; display: none; position: absolute;" id="GamePiece3DX1">
+<img src="GamePiece3DX.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 45px; display: none; position: absolute;" id="GamePiece3DX2">
+<img src="GamePiece3DX.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 45px; display: none; position: absolute;" id="GamePiece3DX3">
+
+<img src="GamePiece3DX.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 200px; display: none; position: absolute;" id="GamePiece3DX4">
+<img src="GamePiece3DX.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 200px; display: none; position: absolute;" id="GamePiece3DX5">
+<img src="GamePiece3DX.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 200px; display: none; position: absolute;" id="GamePiece3DX6">
+
+<img src="GamePiece3DX.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 355px; display: none; position: absolute;" id="GamePiece3DX7">
+<img src="GamePiece3DX.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 355px; display: none; position: absolute;" id="GamePiece3DX8">
+<img src="GamePiece3DX.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 355px; display: none; position: absolute;" id="GamePiece3DX9">
+<!--End-->
+</div>
+
+<br>
+
+<div id="statistics" style="width: 200px; height: 270px; background-color: #6d6d6d; margin: auto; border-radius: 10px; border: 2px solid black;"> 
+    <p style="text-align: center; color: #ffffff; font-weight: bold; font-size: 20px;"><u>Statistics</u></p>
+    <p id="games_played" style="color: white; padding-left: 5px; font-size: 20px;">Games played: 0</p>
+    <p id="games_drawed" style="color: white; padding-left: 5px; font-size: 20px;">Games drawn: 0</p>
+    <p id="games_lost" style="color: white; padding-left: 5px; font-size: 20px;">Games lost: 0</p>
+    <p id="DLR" style="color: white; padding-left: 5px; font-size: 20px;">Draw to<br>Lose Ratio: 0.0</p>
+</div>
+
+
+<div>
+<button id="homeButton" style="width: 250px; height: 50px; top: 800px; margin: 10px auto; " class="prevent-select">     <a class="w3-xxlarge"><i id="icons" class="fa fa-home" onclick="window.location.href='index.html'"></i>   |   </a>     <a class="w3-xxlarge"><i id="icons" class="fa fa-refresh" onclick="RestartGame();"></i>   |   </a>      <a id="icons" class="w3-xxlarge" onclick="document.getElementById('Settings_Container').style.display='block'; document.getElementById('GamePiece_list').style.display='block'; document.getElementById('Background_image_list').style.display='none'; document.getElementById('Audio').style.display='none'"><i class="fa fa-cogs"></i></a>   |   <a onclick="if(document.getElementById('statistics').style.display=='block') {document.getElementById('statistics').style.display='none';} else{document.getElementById('statistics').style.display='block';}"><i class="fa fa-info-circle" id="icons"></i></a> </button>
+<button id="startButton" style="width: 200px; height: 50px; top: 800px; margin: 10px auto;" onclick="document.getElementById('startButton').style.display='none'; document.getElementById('No_Access').style.display='block'; background_Audio();" class="prevent-select">Start</button>
+<button id="restartButton" style="width: 200px; height: 50px; top: 800px; margin: 10px auto; display: none;" onclick="RestartGame();" class="prevent-select">Restart</button>
+</div>
+
+
+
+<br><br><br>
+
+
+<map name="workmap">
+
+    <area shape="rect" coords="158,165,2,0" alt="Square 1" onclick="ValidateUserInput('Square1')">
+    <area shape="rect" coords="319, 162, 176, -1" alt="Square 2" onclick="ValidateUserInput('Square2')">
+    <area shape="rect" coords="465, 155, 335, 0" alt="Square 3" onclick="ValidateUserInput('Square3')">
+    <area shape="rect" coords="0, 173, 160, 313" alt="Square 4" onclick="ValidateUserInput('Square4')">
+    <area shape="rect" coords="169, 167, 310, 311" alt="Square 5" onclick="ValidateUserInput('Square5')">
+    <area shape="rect" coords="324, 167, 465, 311" alt="Square 6" onclick="ValidateUserInput('Square6')">
+    <area shape="rect" coords="-1, 328, 142, 480" alt="Square 7" onclick="ValidateUserInput('Square7')">
+    <area shape="rect" coords="174, 326, 306, 480" alt="Square 8" onclick="ValidateUserInput('Square8')">
+    <area shape="rect" coords="333, 325, 465, 479" alt="Square 9" onclick="ValidateUserInput('Square9')">
+
+</map>
+
+<!--Popup message container-->
+<div id="Modal-box" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content" id="alert">
+      <div class="modal-body">
+        <p style="text-align: center; font-size: 30px;" id="Message" class="prevent-select">It's a draw!</p>
+      </div>
+    </div>
+</div>
+
+
+
+
+<!--Settings pop container-->
+<div class="prevent-select">
+<div id="Settings_Container" class="Settings_Container">
+    <div class="settings_box">
+        <div id="Nav-bar" style="background-color: #3cac81; float: left; width: 100%; height: 60px;">
+            <button id="Settings_button" style="float: left;" onclick="document.getElementById('GamePiece_list').style.display='block'; document.getElementById('Background_image_list').style.display='none'; document.getElementById('Audio').style.display='none'">Game Pieces</button>                       <button style="text-align: center;" id="Settings_button" onclick="document.getElementById('GamePiece_list').style.display='none'; document.getElementById('Background_image_list').style.display='block'; document.getElementById('Audio').style.display='none'">Background Image</button>                            <button style="float: right" id="Settings_button" onclick="document.getElementById('GamePiece_list').style.display='none'; document.getElementById('Background_image_list').style.display='none'; document.getElementById('Audio').style.display='block'">Audio <a id="closeButton" class="w3-xxxlarge" style="position: relative; float: right; top: -10px; font-size: 20px;" onclick="closeMenu();"><i class="fa fa-times"></i></a></button></div>
+
+
+
+        <div id="GamePiece_list">
+            <button id="GamePieceX_Button" class="GamePiece_list_button" style="left: 30px; top: -40px;" onclick="ChangeGamePiece('X')"><img src="GamePieceX.png" width="60px" height="60px" style="text-align: center;"></img></button>         <button id="GamePieceO_Button" class="GamePiece_list_button" style="float: right; right: 30px; top: -40px;" onclick="ChangeGamePiece('O')"><img src="GamePieceO.png" width="60px" height="60px" style="text-align: center;"></img></button> 
+            <br><br>
+            <button id="GamePiece_select" style="left: 28px; float: left; position: relative; border-radius: 10px; color: white; border-width: 0; height: 30px; top: -45px;" onclick="ChangeGamePiece('X')"><b>Play as X!</b></button>          <button id="GamePiece_select" style="right: 28px; float: right; position: relative; border-radius: 10px; color: white; border-width: 0; height: 30px; top: -45px;" onclick="ChangeGamePiece('O')"><b>Play as O!</b></button> 
+            
+            <br><br><br>
+            <button id="GamePiecePretzel_Button" class="GamePiece_list_button" style="transform: translateX(-40px); top: -45px;" onclick="ChangeGamePiece('Pretzel');"><img src="GamePiecePretzel.png" width="60px" height="60px" style="text-align: center;"></img></button>         <button id="GamePieceDoughnut_Button" class="GamePiece_list_button" style="transform: translateX(60px); top: -45px;" onclick="ChangeGamePiece('Doughnut')"><img src="GamePieceDoughnut.png" width="60px" height="60px" style="text-align: center;"></img></button> 
+            <button id="GamePiece_select" style="top: 35px; left: 28px; float: left; position: relative; border-radius: 10px; color: white; border-width: 0; height: 40px;" onclick="ChangeGamePiece('Pretzel');"><b>Play as a <br>pretzel!</b></button>          <button id="GamePiece_select" style="right: 24px; float: right; position: relative; border-radius: 10px; color: white; border-width: 0; height: 40px; top: 35px;" onclick="ChangeGamePiece('Doughnut')"><b>Play as a <br>doughnut!</b></button>
+         
+            <br><br><br><br><br>
+            <button id="GamePiece3DX_Button" class="GamePiece_list_button" style="transform: translateX(-40px); top: -45px;" onclick="ChangeGamePiece('3DX');"><img src="GamePiece3DX.png" width="60px" height="60px" style="padding-left: 0.5px; padding-top: 1.5px;"></img></button>       <button id="GamePiece3DO_Button" class="GamePiece_list_button" style="transform: translateX(60px); top: -45px;" onclick="ChangeGamePiece('3DO')"><img src="GamePiece3DO.png" width="60px" height="60px" style="text-align: center;"></img></button> 
+            <button id="GamePiece_select" style="top: 35px; left: 28px; float: left; position: relative; border-radius: 10px; color: white; border-width: 0; height: 40px;" onclick="ChangeGamePiece('3DX');"><b>Play as a <br>3D X!</b></button>          <button id="GamePiece_select" style="right: 28px; float: right; position: relative; border-radius: 10px; color: white; border-width: 0; height: 40px; top: 35px;" onclick="ChangeGamePiece('3DO')"><b>Play as a <br>3D O!</b></button>
+            
+            <buttons style="top: 80px; position: relative; color: #ffffff; font-size: 1px;">Hello</button>
+        </div>
+
+
+
+
+
+
+        <div id="Background_image_list">
+            <button id="Background_image_ClassicGrey_Selector" style="position: absolute; width: 80px; height: 80px; top: 90px; left: 35px; z-index: 1; background-color: #99ccff; border-width: 0px; border-radius: 10px;"></button>
+            <button id="Background_image_Brickwall_Selector" style="position: absolute; width: 80px; height: 80px; top: 90px; left: 185px; z-index: 1; background-color: #99ccff; border-width: 0px; border-radius: 10px;"></button>
+            <button id="Background_image_StoneTiles_Selector" style="position: absolute; width: 80px; height: 80px; top: 232px; left: 35px; z-index: 1; background-color: #99ccff; border-width: 0px; border-radius: 10px;"></button>
+            <button id="Background_image_WoodenPlanks_Selector" style="position: absolute; width: 80px; height: 80px; top: 232px; left: 185px; z-index: 1; background-color: #99ccff; border-width: 0px; border-radius: 10px;"></button>
+
+
+            <button onclick="ChangeBackgroundImage('ClassicGrey');" id="BackgroundImage_NoImage_Button" class="GamePiece_list_button" style="left: 40px; top: 5px; z-index: 2;"></button>         <button onclick="ChangeBackgroundImage('Brickwall');" id="BackgroundImage_BrickWall_Button" class="GamePiece_list_button" style="float: right; right: 40px; top: 5px; background-image: url('BackgroundImage_BrickWall.png'); z-index: 2;"></button> 
+            <br><br>
+            <button onclick="ChangeBackgroundImage('ClassicGrey');" id="GamePiece_select" style="left: 28px; float: left; position: relative; border-radius: 10px; color: white; border-width: 0; height: 30px;"><b>Classic Grey!</b></button>          <button onclick="ChangeBackgroundImage('Brickwall');" id="GamePiece_select" style="right: 28px; float: right; position: relative; border-radius: 10px; color: white; border-width: 0; height: 30px;"><b>Brick Walls!</b></button> 
+            
+            <br><br><br>
+            <button onclick="ChangeBackgroundImage('StoneTiles');" id="BackgroundImage_StoneTiles_Button" class="GamePiece_list_button" style="position: absolute; left: 40px; background-image: url('BackgroundImage_StoneTiles.png'); z-index: 2;"></button>         <button onclick="ChangeBackgroundImage('WoodenPlanks');" id="BackgroundImage_WoodenPlanks_Button" class="GamePiece_list_button" style="position: absolute; right: 40px; background-image: url('BackgroundImage_WoodenPlanks.png'); z-index: 2;"></button> 
+            <button onclick="ChangeBackgroundImage('StoneTiles');" id="GamePiece_select" style="top: 80px; left: 35px; float: left; position: relative; border-radius: 10px; color: white; border-width: 0; height: 40px;"><b>Stone Tiles</b></button>          <button onclick="ChangeBackgroundImage('WoodenPlanks');" id="GamePiece_select" style="right: 42px; float: right; position: relative; border-radius: 10px; color: white; border-width: 0; height: 40px; top: 80px;"><b>Wooden<br>Planks!</b></button>
+        </div>
+
+
+
+
+
+        <div id="Audio">
+            
+
+            <div style="float: left; position: relative; left: -40px; padding-top: 40px; height: 200px; position: relative; top: 30px; z-index: 1;" id="slidecontainer">
+                <input type="range" min="0" max="100" value="100" id="volumeRange" class="slider" style="width: 150px; scale: 1.4; transform: rotate(270deg);">
+                <br><br><br><br><br><br><br>
+                <button style="position: relative; left: 50px; height: 30px; border-radius: 10px; background-color: #f7de51; border-width: 4px;"><b>Volume: <span id="volumeValue"></span></b></button>
+            </div>
+
+
+            <div style="transform: translateY(-20px);"><button style="transform: translateX(-20px); background-color: rgba(236, 56, 200, 0.667); color: #ffffff; border-radius: 10px; width: 145px; height: 30px; border-width: 3px; font-size: 15px; text-align: center;"><b>SFX Settings</b></button></div>
+
+
+            <div style="transform: translateX(-30px);">   <button style="right: 100px; transform: translateY(-5px); height: 34px; width: 80px; border-radius: 10px; text-align: center; color: #ffffff; background-color: #04AA6D; border-width: 3px;"><b>All Audio</b></button></div>
+            <div style="transform: translateX(70px);">
+                <label class="switch" style="transform: translateY(-40px);">
+                    <input id="allAudio" class="toggleSwitch" type="checkbox" checked onclick="audio_controls('allAudio');">
+                    <span class="allAudio round"></span>
+                </label>
+            </div>
+
+
+
+            <div style="transform: translateX(-30px);">   <button style="right: 100px; transform: translateY(-25px); height: 34px; width: 80px; border-radius: 10px; text-align: center; color: #ffffff; background-color: #04AA6D; border-width: 3px; font-size: 10px;"><b>Background Audio</b></button></div>
+            <div style="transform: translateY(-60px);">
+                <label class="switch" style="transform: translateX(70px);">
+                    <input id="backgroundAudio" class="toggleSwitch" type="checkbox" checked onclick="audio_controls('backgroundAudio');">
+                    <span class="allAudio round"></span>
+                </label>
+            </div>
+
+
+            <div style="transform: translateX(-30px);">   <button style="right: 100px; transform: translateY(-46px); height: 34px; width: 80px; border-radius: 10px; text-align: center; color: #ffffff; background-color: #04AA6D; border-width: 3px; font-size: 11px;"><b>Clicking Audio</b></button></div>
+            <div style="transform: translateY(-80px);">
+                <label class="switch" style="transform: translateX(70px);">
+                    <input id="clickingAudio" class="toggleSwitch" type="checkbox" checked onclick="audio_controls('clickingAudio');">
+                    <span class="allAudio round"></span>
+                </label>
+            </div>
+
+
+            <div style="transform: translateX(-30px);">   <button style="right: 100px; transform: translateY(-65px); height: 34px; width: 80px; border-radius: 10px; text-align: center; color: #ffffff; background-color: #04AA6D; border-width: 3px; font-size: 11px;"><b>Fanfare Audio</b></button></div>
+            <div style="transform: translateY(-100px);">
+                <label class="switch" style="transform: translateX(223px);">
+                    <input id="fanfareAudio" class="toggleSwitch" type="checkbox" checked onclick="audio_controls('fanfareAudio');">
+                    <span class="allAudio round"></span>
+                </label>
+            </div>
+
+
+
+        </div>
+
+
+
+
+        <div id="No_Access">
+            <p style="text-align: center; font-size: 40px; padding-top: 40px;"><b>Game in progress!</b></p>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+<audio id="backgroundSFX" controls loop hidden>
+    <source src="Around-the-Bend.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="Button_Click" controls hidden>
+    <source src="ButtonClick.wav" type="audio/wav">
+</audio>
+
+<audio id="Fanfare" control hidden>
+    <source src="Fanfare.mp3" type="audio/mpeg">
+</audio>
+
+
+
+
+
+
+
+<script>
+
+window.Games_played=0;
+window.Games_drawed=0;
+window.Games_lost=0;
+
+
+window.muteAllAudio=false;
+window.muteBackgroundMusic=false;
+window.muteClicks=false;
+window.muteFanfare=false;
+
+
+function audio_controls(control) {
+
+    var allAudio=document.getElementById("allAudio");
+    var backgroundAudio=document.getElementById("backgroundAudio");
+    var clickingAudio=document.getElementById("clickingAudio");
+    var fanfareAudio=document.getElementById("fanfareAudio");
+
+    if(control=="allAudio" && allAudio.checked==true) {
+        backgroundAudio.checked=true; clickingAudio.checked=true; fanfareAudio.checked=true; muteClicks=true;
+        muteAllAudio=false; muteBackgroundMusic=false; muteClicks=false; muteFanfare=false;
+        background_Audio();
+    }
+    else if(control=="allAudio" && allAudio.checked==false) {
+        backgroundAudio.checked=false; clickingAudio.checked=false; fanfareAudio.checked=false; muteClicks=false;
+        muteAllAudio=true; muteBackgroundMusic=true; muteClicks=true; muteFanfare=true;
+        background_Audio();
+    }
+
+    else if(control=="backgroundAudio" && backgroundAudio.checked==true) {backgroundAudio.checked=true; muteBackgroundMusic=false; background_Audio();}
+    else if(control=="clickingAudio" && clickingAudio.checked==true) {clickingAudio.checked=true; muteClicks=false; muteClicks=false;}
+    else if(control=="fanfareAudio" && fanfareAudio.checked==true) {fanfareAudio.checked=true; muteFanfare=false;}
+
+    else if(control=="backgroundAudio" && backgroundAudio.checked==false) {backgroundAudio.checked=false; muteBackgroundMusic=true; background_Audio();}
+    else if(control=="clickingAudio" && clickingAudio.checked==false) {clickingAudio.checked=false; muteClicks=true; muteClicks=true;}
+    else if(control=="fanfareAudio" && fanfareAudio.checked==false) {fanfareAudio.checked=false; muteFanfare=true;}
+
+    if(backgroundAudio.checked==false && clickingAudio.checked==false && fanfareAudio.checked==false) {allAudio.checked=false;}
+    else if(backgroundAudio.checked==true && clickingAudio.checked==true && fanfareAudio.checked==true) {allAudio.checked=true;}
+}
+
+
+
+function playClick() {
+
+    document.getElementById("Button_Click").load();
+    document.getElementById("Button_Click").play();
+}
+
+function background_Audio() {
+
+    if(muteBackgroundMusic==false) {
+        document.getElementById("backgroundSFX").load();
+        document.getElementById("backgroundSFX").play();
+    }
+    else{document.getElementById("backgroundSFX").pause();}
+}
+
+
+var slider=document.getElementById("volumeRange");
+document.getElementById("volumeValue").innerHTML=slider.value+"%";
+slider.oninput=function() {
+    document.getElementById("volumeValue").innerHTML=this.value+"%";
+    document.getElementById("backgroundSFX").volume=(this.value)/100;
+}
+
+function closeMenu(){
+    var menu=document.getElementById("Settings_Container");
+    menu.style.display="none";
+}
+
+function closeModal() {
+
+    var modal=document.getElementById("Modal-box");
+    modal.style.display="none";
+    document.getElementById("restartButton").style.display="block";
+    document.getElementById("No_Access").style.display="none";
+    
+
+}
+
+var modal=document.getElementById("Modal-box");
+var menu=document.getElementById("Settings_Container");
+
+window.onclick=function(event) {
+    if(event.target==modal) {
+        modal.style.display="none";
+        document.getElementById("restartButton").style.display="block";
+    }
+
+    if(event.target==menu) {
+        menu.style.display="none";
+    }
+}
+
+window.playerGamePiece="X";
+window.computerGamePiece="O";
+
+window.Turn=0;
+window.MainBoard=[
+
+    [0,0,0],
+    [0,0,0],
+    [0,0,0]
+
+]
+
+
+function RestartGame() {
+
+    document.getElementById("No_Access").style.display="block";
+    document.getElementById("restartButton").style.display="none";
+    MainBoard=[
+        
+        [0,0,0],
+        [0,0,0],
+        [0,0,0]
+    
+    ]
+    document.getElementById('Message').innerHTML='';
+    Turn=0;
+    UpdateTicTacToeBoardUI(MainBoard);
+}
+
+
+
+
+function ChangeGamePiece(selectedGamePiece) {
+
+    image_X=document.getElementById("GamePieceX_Button").style;
+    image_O=document.getElementById("GamePieceO_Button").style;
+    image_Pretzel=document.getElementById("GamePiecePretzel_Button").style;
+    image_Doughnut=document.getElementById("GamePieceDoughnut_Button").style;
+    image_3DO=document.getElementById("GamePiece3DO_Button").style;
+    image_3DX=document.getElementById("GamePiece3DX_Button").style;
+
+    image_X.backgroundColor="#cccbcb";
+    image_O.backgroundColor="#cccbcb";
+    image_Pretzel.backgroundColor="#cccbcb";
+    image_Doughnut.backgroundColor="#cccbcb";
+    image_3DO.backgroundColor="#cccbcb";
+    image_3DX.backgroundColor="#cccbcb";
+
+
+
+    if (selectedGamePiece=="O") {
+        image_O.backgroundColor="#99ccff"; playerGamePiece="O"; computerGamePiece="X";
+    }
+
+    if (selectedGamePiece=="X") {
+        image_X.backgroundColor="#99ccff"; playerGamePiece="X"; computerGamePiece="O";
+    }
+    
+    if (selectedGamePiece=="Doughnut") {
+        image_Doughnut.backgroundColor="#99ccff"; playerGamePiece="Doughnut"; computerGamePiece="Pretzel";
+    }
+
+    if (selectedGamePiece=="Pretzel") {
+        image_Pretzel.backgroundColor="#99ccff"; playerGamePiece="Pretzel"; computerGamePiece="Doughnut";
+    }
+
+    if(selectedGamePiece=="3DO") {
+        image_3DO.backgroundColor="#99ccff"; playerGamePiece="3DO"; computerGamePiece="3DX";
+    }
+
+    if(selectedGamePiece=="3DX") {
+        image_3DX.backgroundColor="#99ccff"; playerGamePiece="3DX"; computerGamePiece="3DO";
+    }
+}
+
+
+
+
+
+
+function ChangeBackgroundImage(image) {
+
+    classicGrey=document.getElementById('Background_image_ClassicGrey_Selector').style;
+    brickwalls=document.getElementById('Background_image_Brickwall_Selector').style;
+    stoneTiles=document.getElementById('Background_image_StoneTiles_Selector').style;
+    woodenPlanks=document.getElementById('Background_image_WoodenPlanks_Selector').style;
+
+    if (image=="ClassicGrey") {
+        classicGrey.display="block"; brickwalls.display="none"; stoneTiles.display="none"; woodenPlanks.display="none";
+        document.getElementById("TicTacToeBoardBackground").style.backgroundImage="url('BackgroundImage_ClassicGrey.png')";
+    }
+
+    if (image=="Brickwall") {
+        classicGrey.display="none"; brickwalls.display="block"; stoneTiles.display="none"; woodenPlanks.display="none";
+        document.getElementById("TicTacToeBoardBackground").style.backgroundImage="url('BackgroundImage_BrickWall.png')";
+    }
+
+    if (image=="StoneTiles") {
+        classicGrey.display="none"; brickwalls.display="none"; stoneTiles.display="block"; woodenPlanks.display="none";
+       document.getElementById("TicTacToeBoardBackground").style.backgroundImage="url('BackgroundImage_StoneTiles.png')";
+    }
+
+    if (image=="WoodenPlanks") {
+        classicGrey.display="none"; brickwalls.display="none"; stoneTiles.display="none"; woodenPlanks.display="block";
+       document.getElementById("TicTacToeBoardBackground").style.backgroundImage="url('BackgroundImage_WoodenPlanks.png')";
+    }
+
+}
+
+
+
+function ValidateUserInput(Square) {
+
+    Message=document.getElementById("Message").innerHTML
+        
+    if ((Turn%2==0 && document.getElementById("startButton").style.display=="none") && Message!="It's a draw!" && Message!="The computer has won!" && Message!="The player has won!") {
+
+        if (Square=="Square1" && MainBoard[0][0]==0) {
+            MainBoard[0][0]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+            CallGameBoard(MainBoard);
+        }
+        else if (Square=="Square2" && MainBoard[0][1]==0) {
+            MainBoard[0][1]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+            CallGameBoard(MainBoard);
+        }
+        else if (Square=="Square3" && MainBoard[0][2]==0) {
+            MainBoard[0][2]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+            CallGameBoard(MainBoard);
+        }
+        else if (Square=="Square4" && MainBoard[1][0]==0) {
+            MainBoard[1][0]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+            CallGameBoard(MainBoard);
+        }
+        else if (Square=="Square5" && MainBoard[1][1]==0) {
+            MainBoard[1][1]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+            CallGameBoard(MainBoard);
+        }
+        else if (Square=="Square6" && MainBoard[1][2]==0) {
+            MainBoard[1][2]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+            CallGameBoard(MainBoard);
+        }
+        else if (Square=="Square7" && MainBoard[2][0]==0) {
+            MainBoard[2][0]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+            CallGameBoard(MainBoard);
+        }
+        else if (Square=="Square8" && MainBoard[2][1]==0) {
+            MainBoard[2][1]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+            CallGameBoard(MainBoard);
+        }
+        else if (Square=="Square9" && MainBoard[2][2]==0) {
+            MainBoard[2][2]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+            CallGameBoard(MainBoard);
+        }
+    }
+}
+
+
+function CallGameBoard(Board) {
+
+    var array={mainBoard:Board};
+
+    var xhttp=new XMLHttpRequest();
+    xhttp.open("POST", "/data");
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(array));
+    console.log("The request for the gameboard has been sent!");
+
+    xhttp.onreadystatechange=function() {
+        if (this.readyState==4 && this.status==200) {
+
+            ResponseText=this.responseText;
+            if (ResponseText.indexOf("draw") >=0) {
+
+                document.getElementById("Message").innerHTML="It's a draw!";
+                document.getElementById("Modal-box").style.display="block";
+                if(muteFanfare!=true){document.getElementById("Fanfare").play();}
+                setTimeout(closeModal, 1000);
+
+                Games_d=getCookie("Games_drawed");
+                Games_p=getCookie("Games_played");
+                if (Games_d!="") {Games_drawed=Games_d;}
+                if (Games_p!="") {Games_played=Games_p;}
+
+                create_update_cookie("Games_played", parseInt(Games_played)+1, 365);
+                create_update_cookie("Games_drawed", parseInt(Games_drawed)+1, 365);
+                loadCookies();
+                
+                
+            }
+            if (ResponseText.indexOf("computer") >=0) {
+                document.getElementById("Message").innerHTML="The computer has won!";
+                document.getElementById("Modal-box").style.display="block";
+                console.log(document.getElementById("Message").style.width);
+                if(muteFanfare!=true){document.getElementById("Fanfare").play();}
+                setTimeout(closeModal, 1000);
+
+                Games_l=getCookie("Games_lost");
+                Games_p=getCookie("Games_played");
+
+                if (Games_p!="") {Games_played=Games_p;}
+                if (Games_l!="") {Games_lost=Games_l;}
+             
+
+                create_update_cookie("Games_played", parseInt(Games_played)+1, 365);
+                create_update_cookie("Games_lost", parseInt(Games_lost)+1, 365);
+                loadCookies();
+        
+            }
+            if (ResponseText.indexOf("player") >=0) {
+                document.getElementById("Message").innerHTML="The player has won!";
+                document.getElementById("Modal-box").style.display="block";
+                if(muteFanfare!=true){document.getElementById("Fanfare").play();}
+                setTimeout(closeModal, 1000);
+            }
+
+            
+            GameBoard=ResponseText;
+            ConvertGameBoardTextIntoArray(GameBoard);
+            Turn+=1;
+
+        }
+    }
+}
+
+function ConvertGameBoardTextIntoArray(GameBoard) {
+
+    //[[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    Board=[];
+
+    Row1=[];
+    Row2=[];
+    Row3=[];
+
+    count=0
+    for (var index in GameBoard) {
+
+        integer="";
+        element=GameBoard[index];
+        if (element=="0" || element=="1" || element=="2") {
+
+            if (element=="0") {
+                integer=0;
+            }
+            else if (element=="1") {
+                integer=1;
+            }
+            else if (element=="2") {
+                integer=2;
+            }
+
+            count+=1;
+            if (count<=3) {
+                Row1.push(integer);   
+            }
+            else if(count<=6 && count>3) {
+                Row2.push(integer);
+            }
+            else if(count>6 && count<=9) {
+                Row3.push(integer);
+            }
+        }
+    }
+    Board.push(Row1);
+    Board.push(Row2);
+    Board.push(Row3);
+    UpdateTicTacToeBoardUI(Board);
+}
+
+
+
+
+function UpdateTicTacToeBoardUI(Board) {
+    /*
+    Board Matrix
+
+    Board=[
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+    ]
+    */ 
+
+    //Updating the main board
+    MainBoard=Board;
+
+    //Updating the board for the player's occupancy
+
+    //Checking if the player's chosen game piece is 'X'
+    if (playerGamePiece=="X") {
+        if (Board[0][0]==1) {document.getElementById("GamePieceX1").style.display="block";}
+        if (Board[0][1]==1) {document.getElementById("GamePieceX2").style.display="block";}
+        if (Board[0][2]==1) {document.getElementById("GamePieceX3").style.display="block";}
+        if (Board[1][0]==1) {document.getElementById("GamePieceX4").style.display="block";}
+        if (Board[1][1]==1) {document.getElementById("GamePieceX5").style.display="block";}
+        if (Board[1][2]==1) {document.getElementById("GamePieceX6").style.display="block";}
+        if (Board[2][0]==1) {document.getElementById("GamePieceX7").style.display="block";}
+        if (Board[2][1]==1) {document.getElementById("GamePieceX8").style.display="block";}
+        if (Board[2][2]==1) {document.getElementById("GamePieceX9").style.display="block";}
+    }
+
+    //Checking if the player's chosen game piece is 'O'
+    if (playerGamePiece=="O") {
+        if (Board[0][0]==1) {document.getElementById("GamePieceO1").style.display="block";}
+        if (Board[0][1]==1) {document.getElementById("GamePieceO2").style.display="block";}
+        if (Board[0][2]==1) {document.getElementById("GamePieceO3").style.display="block";}
+        if (Board[1][0]==1) {document.getElementById("GamePieceO4").style.display="block";}
+        if (Board[1][1]==1) {document.getElementById("GamePieceO5").style.display="block";}
+        if (Board[1][2]==1) {document.getElementById("GamePieceO6").style.display="block";}
+        if (Board[2][0]==1) {document.getElementById("GamePieceO7").style.display="block";}
+        if (Board[2][1]==1) {document.getElementById("GamePieceO8").style.display="block";}
+        if (Board[2][2]==1) {document.getElementById("GamePieceO9").style.display="block";}
+    }
+
+    //Checking if the player's chosen game piece is a 'Pretzel'
+    if (playerGamePiece=="Pretzel") {
+        if (Board[0][0]==1) {document.getElementById("GamePiecePretzel1").style.display="block";}
+        if (Board[0][1]==1) {document.getElementById("GamePiecePretzel2").style.display="block";}
+        if (Board[0][2]==1) {document.getElementById("GamePiecePretzel3").style.display="block";}
+        if (Board[1][0]==1) {document.getElementById("GamePiecePretzel4").style.display="block";}
+        if (Board[1][1]==1) {document.getElementById("GamePiecePretzel5").style.display="block";}
+        if (Board[1][2]==1) {document.getElementById("GamePiecePretzel6").style.display="block";}
+        if (Board[2][0]==1) {document.getElementById("GamePiecePretzel7").style.display="block";}
+        if (Board[2][1]==1) {document.getElementById("GamePiecePretzel8").style.display="block";}
+        if (Board[2][2]==1) {document.getElementById("GamePiecePretzel9").style.display="block";}
+    }
+
+    //Checking if the player's chosen game piece is a 'Doughnut'
+    if (playerGamePiece=="Doughnut") {
+        if (Board[0][0]==1) {document.getElementById("GamePieceDoughnut1").style.display="block";}
+        if (Board[0][1]==1) {document.getElementById("GamePieceDoughnut2").style.display="block";}
+        if (Board[0][2]==1) {document.getElementById("GamePieceDoughnut3").style.display="block";}
+        if (Board[1][0]==1) {document.getElementById("GamePieceDoughnut4").style.display="block";}
+        if (Board[1][1]==1) {document.getElementById("GamePieceDoughnut5").style.display="block";}
+        if (Board[1][2]==1) {document.getElementById("GamePieceDoughnut6").style.display="block";}
+        if (Board[2][0]==1) {document.getElementById("GamePieceDoughnut7").style.display="block";}
+        if (Board[2][1]==1) {document.getElementById("GamePieceDoughnut8").style.display="block";}
+        if (Board[2][2]==1) {document.getElementById("GamePieceDoughnut9").style.display="block";}
+    }
+    
+    //Checking if the player's chosen game piece is a '3D O'
+    if (playerGamePiece=="3DO") {
+        if (Board[0][0]==1) {document.getElementById("GamePiece3DO1").style.display="block";}
+        if (Board[0][1]==1) {document.getElementById("GamePiece3DO2").style.display="block";}
+        if (Board[0][2]==1) {document.getElementById("GamePiece3DO3").style.display="block";}
+        if (Board[1][0]==1) {document.getElementById("GamePiece3DO4").style.display="block";}
+        if (Board[1][1]==1) {document.getElementById("GamePiece3DO5").style.display="block";}
+        if (Board[1][2]==1) {document.getElementById("GamePiece3DO6").style.display="block";}
+        if (Board[2][0]==1) {document.getElementById("GamePiece3DO7").style.display="block";}
+        if (Board[2][1]==1) {document.getElementById("GamePiece3DO8").style.display="block";}
+        if (Board[2][2]==1) {document.getElementById("GamePiece3DO9").style.display="block";}
+    }
+
+    //Checking if the player's chosen game piece is a '3D X'
+    if (playerGamePiece=="3DX") {
+        if (Board[0][0]==1) {document.getElementById("GamePiece3DX1").style.display="block";}
+        if (Board[0][1]==1) {document.getElementById("GamePiece3DX2").style.display="block";}
+        if (Board[0][2]==1) {document.getElementById("GamePiece3DX3").style.display="block";}
+        if (Board[1][0]==1) {document.getElementById("GamePiece3DX4").style.display="block";}
+        if (Board[1][1]==1) {document.getElementById("GamePiece3DX5").style.display="block";}
+        if (Board[1][2]==1) {document.getElementById("GamePiece3DX6").style.display="block";}
+        if (Board[2][0]==1) {document.getElementById("GamePiece3DX7").style.display="block";}
+        if (Board[2][1]==1) {document.getElementById("GamePiece3DX8").style.display="block";}
+        if (Board[2][2]==1) {document.getElementById("GamePiece3DX9").style.display="block";}
+    }
+
+
+
+
+
+    //Updating the board for the computer's occupancy
+
+    //Checking if the computer's chosen game piece is 'O'
+    if(computerGamePiece=="O") {
+        if (Board[0][0]==2) {document.getElementById("GamePieceO1").style.display="block";}
+        if (Board[0][1]==2) {document.getElementById("GamePieceO2").style.display="block";}
+        if (Board[0][2]==2) {document.getElementById("GamePieceO3").style.display="block";}
+        if (Board[1][0]==2) {document.getElementById("GamePieceO4").style.display="block";}
+        if (Board[1][1]==2) {document.getElementById("GamePieceO5").style.display="block";}
+        if (Board[1][2]==2) {document.getElementById("GamePieceO6").style.display="block";}
+        if (Board[2][0]==2) {document.getElementById("GamePieceO7").style.display="block";}
+        if (Board[2][1]==2) {document.getElementById("GamePieceO8").style.display="block";}
+        if (Board[2][2]==2) {document.getElementById("GamePieceO9").style.display="block";}
+    }
+
+    //Checking if the computer's chosen game piece is 'X'
+    if(computerGamePiece=="X") {
+        if (Board[0][0]==2) {document.getElementById("GamePieceX1").style.display="block";}
+        if (Board[0][1]==2) {document.getElementById("GamePieceX2").style.display="block";}
+        if (Board[0][2]==2) {document.getElementById("GamePieceX3").style.display="block";}
+        if (Board[1][0]==2) {document.getElementById("GamePieceX4").style.display="block";}
+        if (Board[1][1]==2) {document.getElementById("GamePieceX5").style.display="block";}
+        if (Board[1][2]==2) {document.getElementById("GamePieceX6").style.display="block";}
+        if (Board[2][0]==2) {document.getElementById("GamePieceX7").style.display="block";}
+        if (Board[2][1]==2) {document.getElementById("GamePieceX8").style.display="block";}
+        if (Board[2][2]==2) {document.getElementById("GamePieceX9").style.display="block";}
+    }
+
+    //Checking if the computer's chosen game piece is a 'Pretzel'
+    if(computerGamePiece=="Pretzel") {
+        if (Board[0][0]==2) {document.getElementById("GamePiecePretzel1").style.display="block";}
+        if (Board[0][1]==2) {document.getElementById("GamePiecePretzel2").style.display="block";}
+        if (Board[0][2]==2) {document.getElementById("GamePiecePretzel3").style.display="block";}
+        if (Board[1][0]==2) {document.getElementById("GamePiecePretzel4").style.display="block";}
+        if (Board[1][1]==2) {document.getElementById("GamePiecePretzel5").style.display="block";}
+        if (Board[1][2]==2) {document.getElementById("GamePiecePretzel6").style.display="block";}
+        if (Board[2][0]==2) {document.getElementById("GamePiecePretzel7").style.display="block";}
+        if (Board[2][1]==2) {document.getElementById("GamePiecePretzel8").style.display="block";}
+        if (Board[2][2]==2) {document.getElementById("GamePiecePretzel9").style.display="block";}
+    }
+
+    //Checking if the computer's chosen game piece is a 'Doughnut'
+    if(computerGamePiece=="Doughnut") {
+        if (Board[0][0]==2) {document.getElementById("GamePieceDoughnut1").style.display="block";}
+        if (Board[0][1]==2) {document.getElementById("GamePieceDoughnut2").style.display="block";}
+        if (Board[0][2]==2) {document.getElementById("GamePieceDoughnut3").style.display="block";}
+        if (Board[1][0]==2) {document.getElementById("GamePieceDoughnut4").style.display="block";}
+        if (Board[1][1]==2) {document.getElementById("GamePieceDoughnut5").style.display="block";}
+        if (Board[1][2]==2) {document.getElementById("GamePieceDoughnut6").style.display="block";}
+        if (Board[2][0]==2) {document.getElementById("GamePieceDoughnut7").style.display="block";}
+        if (Board[2][1]==2) {document.getElementById("GamePieceDoughnut8").style.display="block";}
+        if (Board[2][2]==2) {document.getElementById("GamePieceDoughnut9").style.display="block";}
+    }
+
+    //Checking if the computer's chosen game piece is a '3D O'
+    if(computerGamePiece=="3DO") {
+        if (Board[0][0]==2) {document.getElementById("GamePiece3DO1").style.display="block";}
+        if (Board[0][1]==2) {document.getElementById("GamePiece3DO2").style.display="block";}
+        if (Board[0][2]==2) {document.getElementById("GamePiece3DO3").style.display="block";}
+        if (Board[1][0]==2) {document.getElementById("GamePiece3DO4").style.display="block";}
+        if (Board[1][1]==2) {document.getElementById("GamePiece3DO5").style.display="block";}
+        if (Board[1][2]==2) {document.getElementById("GamePiece3DO6").style.display="block";}
+        if (Board[2][0]==2) {document.getElementById("GamePiece3DO7").style.display="block";}
+        if (Board[2][1]==2) {document.getElementById("GamePiece3DO8").style.display="block";}
+        if (Board[2][2]==2) {document.getElementById("GamePiece3DO9").style.display="block";}
+    }
+
+    //Checking if the computer's chosen game piece is a '3D X'
+    if(computerGamePiece=="3DX") {
+        if (Board[0][0]==2) {document.getElementById("GamePiece3DX1").style.display="block";}
+        if (Board[0][1]==2) {document.getElementById("GamePiece3DX2").style.display="block";}
+        if (Board[0][2]==2) {document.getElementById("GamePiece3DX3").style.display="block";}
+        if (Board[1][0]==2) {document.getElementById("GamePiece3DX4").style.display="block";}
+        if (Board[1][1]==2) {document.getElementById("GamePiece3DX5").style.display="block";}
+        if (Board[1][2]==2) {document.getElementById("GamePiece3DX6").style.display="block";}
+        if (Board[2][0]==2) {document.getElementById("GamePiece3DX7").style.display="block";}
+        if (Board[2][1]==2) {document.getElementById("GamePiece3DX8").style.display="block";}
+        if (Board[2][2]==2) {document.getElementById("GamePiece3DX9").style.display="block";}
+    }
+
+
+
+
+
+    //Updating the board for no occupancy (to restart the game)
+    if (Board[0][0]==0) {
+        document.getElementById("GamePieceO1").style.display="none";
+        document.getElementById("GamePieceX1").style.display="none";
+        document.getElementById("GamePiecePretzel1").style.display="none";
+        document.getElementById("GamePieceDoughnut1").style.display="none";
+        document.getElementById("GamePiece3DO1").style.display="none";
+        document.getElementById("GamePiece3DX1").style.display="none";
+        
+    }
+    if (Board[0][1]==0) {
+        document.getElementById("GamePieceO2").style.display="none";
+        document.getElementById("GamePieceX2").style.display="none";
+        document.getElementById("GamePiecePretzel2").style.display="none";
+        document.getElementById("GamePieceDoughnut2").style.display="none";
+        document.getElementById("GamePiece3DO2").style.display="none";
+        document.getElementById("GamePiece3DX2").style.display="none";
+    }
+    if (Board[0][2]==0) {
+        document.getElementById("GamePieceO3").style.display="none";
+        document.getElementById("GamePieceX3").style.display="none";
+        document.getElementById("GamePiecePretzel3").style.display="none";
+        document.getElementById("GamePieceDoughnut3").style.display="none";
+        document.getElementById("GamePiece3DO3").style.display="none";
+        document.getElementById("GamePiece3DX3").style.display="none";
+    }
+    if (Board[1][0]==0) {
+        document.getElementById("GamePieceO4").style.display="none";
+        document.getElementById("GamePieceX4").style.display="none";
+        document.getElementById("GamePiecePretzel4").style.display="none";
+        document.getElementById("GamePieceDoughnut4").style.display="none";
+        document.getElementById("GamePiece3DO4").style.display="none";
+        document.getElementById("GamePiece3DX4").style.display="none";
+    }
+    if (Board[1][1]==0) {
+        document.getElementById("GamePieceO5").style.display="none";
+        document.getElementById("GamePieceX5").style.display="none";
+        document.getElementById("GamePiecePretzel5").style.display="none";
+        document.getElementById("GamePieceDoughnut5").style.display="none";
+        document.getElementById("GamePiece3DO5").style.display="none";
+        document.getElementById("GamePiece3DX5").style.display="none";
+    }
+    if (Board[1][2]==0) {
+        document.getElementById("GamePieceO6").style.display="none";
+        document.getElementById("GamePieceX6").style.display="none";
+        document.getElementById("GamePiecePretzel6").style.display="none";
+        document.getElementById("GamePieceDoughnut6").style.display="none";
+        document.getElementById("GamePiece3DO6").style.display="none";
+        document.getElementById("GamePiece3DX6").style.display="none";
+    }
+    if (Board[2][0]==0) {
+        document.getElementById("GamePieceO7").style.display="none";
+        document.getElementById("GamePieceX7").style.display="none";
+        document.getElementById("GamePiecePretzel7").style.display="none";
+        document.getElementById("GamePieceDoughnut7").style.display="none";
+        document.getElementById("GamePiece3DO7").style.display="none";
+        document.getElementById("GamePiece3DX7").style.display="none";
+    }
+    if (Board[2][1]==0) {
+        document.getElementById("GamePieceO8").style.display="none";
+        document.getElementById("GamePieceX8").style.display="none";
+        document.getElementById("GamePiecePretzel8").style.display="none";
+        document.getElementById("GamePieceDoughnut8").style.display="none";
+        document.getElementById("GamePiece3DO8").style.display="none";
+        document.getElementById("GamePiece3DX8").style.display="none";
+    }
+    if (Board[2][2]==0) {
+        document.getElementById("GamePieceO9").style.display="none";
+        document.getElementById("GamePieceX9").style.display="none";
+        document.getElementById("GamePiecePretzel9").style.display="none";
+        document.getElementById("GamePieceDoughnut9").style.display="none";
+        document.getElementById("GamePiece3DO9").style.display="none";
+        document.getElementById("GamePiece3DX9").style.display="none";
+    }
+}
+
+//Cookie management
+
+function create_update_cookie(cname, cvalue, expirey_date) {
+
+const date=new Date();
+date.setTime(date.getTime() + (expirey_date*24*60*60*1000));
+let expires="expires="+date.toUTCString();
+document.cookie=cname+"="+cvalue+";"+expires+";path=/";
+console.log("The cookie named as: "+cname+" , was successfully created/updated!");
+
+}
+
+function getCookie(cname) {
+let name = cname + "=";
+let decodedCookie = decodeURIComponent(document.cookie);
+let ca = decodedCookie.split(';');
+for(let i = 0; i <ca.length; i++) {
+let c = ca[i];
+while (c.charAt(0) == ' ') {
+  c = c.substring(1);
+}
+if (c.indexOf(name) == 0) {
+  return c.substring(name.length, c.length);
+}
+}
+return "";
+}
+
+
+function loadCookies() {
+
+    var games_played=getCookie("Games_played");
+    var games_lost=getCookie("Games_lost");
+    var games_drawed=getCookie("Games_drawed");
+
+    if(games_played!="") {document.getElementById("games_played").innerHTML="Games played: "+games_played;}
+    if(games_lost!="") {document.getElementById("games_lost").innerHTML="Games lost: "+games_lost; Games_lost=parseInt(games_lost);}
+    if(games_drawed!="") {document.getElementById("games_drawed").innerHTML="Games drawn: "+games_drawed;}
+    if(games_drawed!="" && Games_lost!=0) {document.getElementById("DLR").innerHTML="Draw to<br>Lose Ratio: "+((parseFloat(games_drawed)/Games_lost).toFixed(2)).toString()}
+    else{document.getElementById("DLR").innerHTML="Draw to<br>Lose Ratio: "+((parseFloat(games_drawed)/Games_lost+1).toFixed(2)).toString()}
+}
+
+
+</script>
+
+
+</body>
+</html>

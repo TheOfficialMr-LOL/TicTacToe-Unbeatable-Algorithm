@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+<title>Homepage</title>
+<body margin:0>
+<style>
+
+.prevent-select {
+
+-webkit-user-select: none;
+-ms-user-select: none;
+user-select: none;
+
+}
+
+#ComputerVsPlayerButton{
+border-radius: 15px;
+background-color: #04AA6d;
+box-shadow: 0 7px #06764b;
+color: #fff;
+font-size: 30px;
+display: block;
+}
+#ComputerVsPlayerButton:hover{background-color: #3e8e41}
+#ComputerVsPlayerButton:active{
+background-color: #3e8e41;
+box-shadow: 0 5px #066c45;
+transform:translateY(4px);
+}
+
+
+#RemoteGame{
+border-radius: 15px;
+background-color: #04AA6d;
+box-shadow: 0 7px #06764b;
+color: #fff;
+font-size: 30px;
+display: block;
+}
+#RemoteGame:hover{background-color: #3e8e41}
+#RemoteGame:active{
+background-color: #3e8e41;
+box-shadow: 0 5px #066c45;
+transform:translateY(4px);
+}
+
+
+#LocalGame{
+border-radius: 15px;
+background-color: #04AA6d;
+box-shadow: 0 7px #06764b;
+color: #fff;
+font-size: 30px;
+display: block;
+}
+#LocalGame:hover{background-color: #3e8e41}
+#LocalGame:active{
+background-color: #3e8e41;
+box-shadow: 0 5px #066c45;
+transform:translateY(4px);
+}
+
+
+</style>  
+
+
+
+
+<h1 style="text-align: center; font-size: 50px;" class="prevent-select">Welcome to Tic-Tac-Toe Unbeatable</h1>
+
+<div class="prevent-select" style="background-color: antiquewhite; width: 500px; height: 500px; margin: auto; border-color: black; border-width: 5px; border-style: solid; border-radius: 20px;">
+
+    <h1 style="text-align: center; font-size: 40px;"><u>Gamemode Selection</u></h1>
+    <br>
+    <br>
+    <br>
+    <button id="ComputerVsPlayerButton" style="width: 350px; height: 50px; top: 800px; transform:translateX(100px); transform: translateX(70px);" onclick="window.location.href='PlayerVSComputer.html'">Player VS Computer</button>
+    <br>
+    <!--<button id="RemoteGame" style="width: 300px; height: 50px; top: 800px; transform:translateX(100px);" onclick="window.location.href='RemoteGame.html'">Connect with others!</button>-->
+    <br>
+    <button id="LocalGame" style="width: 350px; height: 50px; top: 900px; transform:translateX(100px); transform: translateX(70px);" onclick="window.location.href='LocalGame.html'">Player VS Player</button>
+
+</div>
+
+</body>
+</html>

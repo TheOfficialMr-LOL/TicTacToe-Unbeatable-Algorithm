@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<body margin:0 onload="document.getElementById('Message').innerHTML=''; loadCookies();">
+<title>Local Game</title>
+<style>
+.prevent-select {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#homeButton{
+
+border-radius: 15px;
+background-color: #797575;
+box-shadow: 0 7px #464444;
+color: #fff;
+font-size: 30px;
+display: block;
+}
+#homeButton:hover{background-color: #585656}
+#homeButton:active{
+
+background-color: #464444;
+box-shadow: 0 5px #464444;
+transform:translateY(4px);
+
+}
+
+
+#startButton{
+
+    border-radius: 15px;
+    background-color: #04AA6d;
+    box-shadow: 0 7px #06764b;
+    color: #fff;
+    font-size: 30px;
+    display: block;
+}
+#startButton:hover{background-color: #3e8e41}
+#startButton:active{
+
+    background-color: #3e8e41;
+    box-shadow: 0 5px #066c45;
+    transform:translateY(4px);
+
+}
+
+
+#restartButton{
+
+display: none;
+border-radius: 15px;
+background-color: #FF0000;
+box-shadow: 0 7px #a10606;
+color: #fff;
+font-size: 30px;
+display: block;
+}
+#restartButton:hover{background-color: #ce1515}
+#restartButton:active{
+
+background-color: #ce1515;
+box-shadow: 0 5px #a10606;
+transform:translateY(4px);
+
+}
+
+.modal-body {padding: 2px 16px;}/*2px 16px*/
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 10; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color:#ffffff;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 60%;
+    min-width: 380px;
+    height: 10%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    border-radius: 50px;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+</style>
+
+
+<h1 style="text-align: center;" class="prevent-select">Local Game</h1>
+
+
+<div style="height: 134px; width: 300px; background-color: #0f9fd3; margin: auto; border-radius: 20px;">
+
+<p style="text-align: center; font-weight: bold; color: #ffffff; font-size: 25px; word-spacing: 20px;">X | Score | O</p>
+<p style="text-align: center; font-weight: bold; color: #ffffff; font-size: 20px; word-spacing: 40px; rotate: 90deg;">---------</p>
+
+<button style="text-align: center; font-weight: bold; color: #ffffff; font-size: 25px; background-color: #0f9fd3; z-index: 3; width: 120px; height: 60px; position: relative; top: -60px; left: 5px; border-width: 0; font-size: 45px; border-radius: 10px;" id="score_X">0</button>
+<button style="text-align: center; font-weight: bold; color: #ffffff; font-size: 25px; background-color: #0f9fd3; z-index: 4; width: 120px; height: 60px; position: relative; top: -60px; left: 50px; border-width: 0; font-size: 45px; border-radius: 10px;" id="score_O">0</button>
+
+<button style="text-align: center; font-weight: bold; color: #ffffff; background-color: #FF0000; position: relative; top: -54px; left: 100px; border-radius: 20px; border-width: 3px;" onclick="resetCookies();">Reset Score</button>
+
+</div>
+<br>
+
+<div style="width: 500px; height: 500px; background-color: rgb(221, 221, 221); margin: auto; border-radius: 20px;" class="prevent-select">
+
+<img src="./TicTacToeBoardTemplate.png" class="prevent-select" alt="Tic tac toe board template" style="z-index: 2; position: absolute; padding-top: 8px; padding-left: 16px;" usemap="#workmap" >
+
+<img src="GamePieceX.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 45px; display: none; position: absolute;" id="GamePieceX1">
+<img src="GamePieceX.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 45px; display: none; position: absolute;" id="GamePieceX2">
+<img src="GamePieceX.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 45px; display: none; position: absolute;" id="GamePieceX3">
+
+<img src="GamePieceX.png" alt="GamePieceX4" style="width: 100px; padding-left: 35px; padding-top: 200px; display: none; position: absolute;" id="GamePieceX4">
+<img src="GamePieceX.png" alt="GamePieceX5" style="width: 100px; padding-left: 200px; padding-top: 200px; display: none; position: absolute;" id="GamePieceX5">
+<img src="GamePieceX.png" alt="GamePieceX6" style="width: 100px; padding-left: 365px; padding-top: 200px; display: none; position: absolute;" id="GamePieceX6">
+
+<img src="GamePieceX.png" alt="GamePieceX7" style="width: 100px; padding-left: 35px; padding-top: 355px; display: none; position: absolute;" id="GamePieceX7">
+<img src="GamePieceX.png" alt="GamePieceX8" style="width: 100px; padding-left: 200px; padding-top: 355px; display: none; position: absolute;" id="GamePieceX8">
+<img src="GamePieceX.png" alt="GamePieceX9" style="width: 100px; padding-left: 365px; padding-top: 355px; display: none; position: absolute;" id="GamePieceX9">
+
+
+
+<img src="GamePieceO.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 45px; display: none; position: absolute;" id="GamePieceO1">
+<img src="GamePieceO.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 45px; display: none; position: absolute;" id="GamePieceO2">
+<img src="GamePieceO.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 45px; display: none; position: absolute;" id="GamePieceO3">
+
+<img src="GamePieceO.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 200px; display: none; position: absolute;" id="GamePieceO4">
+<img src="GamePieceO.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 200px; display: none; position: absolute;" id="GamePieceO5">
+<img src="GamePieceO.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 200px; display: none; position: absolute;" id="GamePieceO6">
+
+<img src="GamePieceO.png" alt="GamePieceX1" style="width: 100px; padding-left: 35px; padding-top: 355px; display: none; position: absolute;" id="GamePieceO7">
+<img src="GamePieceO.png" alt="GamePieceX2" style="width: 100px; padding-left: 200px; padding-top: 355px; display: none; position: absolute;" id="GamePieceO8">
+<img src="GamePieceO.png" alt="GamePieceX3" style="width: 100px; padding-left: 365px; padding-top: 355px; display: none; position: absolute;" id="GamePieceO9">
+
+</div>
+
+<button id="homeButton" style="width: 200px; height: 50px; top: 800px; margin: 10px auto; " class="prevent-select">     <a class="w3-xxlarge"><i class="fa fa-home" onclick="window.location.href='index.html'"></i>   |   </a>     <a class="w3-xxlarge"><i class="fa fa-refresh" onclick="RestartGame();"></i>   |   </a>      <a class="w3-xxlarge"><i class="fa fa-cogs"></i></a></button>
+<button id="startButton" style="width: 200px; height: 50px; top: 800px; margin: 10px auto;" onclick="document.getElementById('startButton').style.display='none';" class="prevent-select">Start</button>
+<button id="restartButton" style="width: 200px; height: 50px; top: 800px; margin: 10px auto; display: none;" onclick="RestartGame();" class="prevent-select">Restart</button>
+
+
+<map name="workmap">
+
+    <area shape="rect" coords="158,165,2,0" alt="Square 1" onclick="ValidateUserInput('Square1')">
+    <area shape="rect" coords="319, 162, 176, -1" alt="Square 2" onclick="ValidateUserInput('Square2')">
+    <area shape="rect" coords="465, 155, 335, 0" alt="Square 3" onclick="ValidateUserInput('Square3')">
+    <area shape="rect" coords="0, 173, 160, 313" alt="Square 4" onclick="ValidateUserInput('Square4')">
+    <area shape="rect" coords="169, 167, 310, 311" alt="Square 5" onclick="ValidateUserInput('Square5')">
+    <area shape="rect" coords="324, 167, 465, 311" alt="Square 6" onclick="ValidateUserInput('Square6')">
+    <area shape="rect" coords="-1, 328, 142, 480" alt="Square 7" onclick="ValidateUserInput('Square7')">
+    <area shape="rect" coords="174, 326, 306, 480" alt="Square 8" onclick="ValidateUserInput('Square8')">
+    <area shape="rect" coords="333, 325, 465, 479" alt="Square 9" onclick="ValidateUserInput('Square9')">
+
+</map>
+
+
+<div id="Modal-box" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content" id="alert">
+      <div class="modal-body">
+        <p style="text-align: center; font-size: 30px;" id="Message" class="prevent-select">It's a draw!</p>
+      </div>
+    </div>
+  
+</div>
+
+<script>
+
+
+window.score_X=0;
+window.score_O=0;
+
+function create_update_cookie(cname, cvalue, expirey_date) {
+
+    const date=new Date();
+    date.setTime(date.getTime() + (expirey_date*24*60*60*1000));
+    let expires="expires="+date.toUTCString();
+    document.cookie=cname+"="+cvalue+";"+expires+";path=/";
+    console.log("The cookie named as: "+cname+" , was successfully created/updated!");
+
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+
+function resetCookies() {
+
+    create_update_cookie("score_O", 0, 365);
+    create_update_cookie("score_X", 0, 365);
+
+    document.getElementById("score_O").innerHTML="0";
+    document.getElementById("score_X").innerHTML="0";
+
+}
+
+
+function loadCookies() {
+
+    var score=getCookie("score_O");
+    if (score!="") {score_O=parseInt(score)};
+    document.getElementById("score_O").innerHTML=score.toString();
+
+    var score=getCookie("score_X");
+    if (score!="") {score_O=parseInt(score)};
+    document.getElementById("score_X").innerHTML=score.toString();
+
+}
+
+
+
+
+
+function closeModal() {
+
+var modal=document.getElementById("Modal-box");
+modal.style.display="none";
+document.getElementById("restartButton").style.display="block";
+
+}
+
+var modal=document.getElementById("Modal-box");
+
+window.onclick=function(event) {
+    if(event.target==modal) {
+        modal.style.display="none";
+        document.getElementById("restartButton").style.display="block";
+    }
+}
+
+window.Turn=0;
+window.MainBoard=[
+
+    [0,0,0],
+    [0,0,0],
+    [0,0,0]
+
+]
+
+function RestartGame() {
+
+document.getElementById("restartButton").style.display="none";
+MainBoard=[
+    
+    [0,0,0],
+    [0,0,0],
+    [0,0,0]
+
+]
+document.getElementById('Message').innerHTML='';
+Turn=0;
+UpdateTicTacToeBoardUI(MainBoard);
+}
+
+function ValidateUserInput(Square) {
+
+    Message=document.getElementById("Message").innerHTML;
+
+    if ((Turn%2==0 && document.getElementById("startButton").style.display=="none") && (Message!="It's a draw!" && Message!="X has won!" && Message!="O has won!")) {
+        if (Square=="Square1" && MainBoard[0][0]==0) {
+            MainBoard[0][0]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square2" && MainBoard[0][1]==0) {
+            MainBoard[0][1]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square3" && MainBoard[0][2]==0) {
+            MainBoard[0][2]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square4" && MainBoard[1][0]==0) {
+            MainBoard[1][0]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square5" && MainBoard[1][1]==0) {
+            MainBoard[1][1]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square6" && MainBoard[1][2]==0) {
+            MainBoard[1][2]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square7" && MainBoard[2][0]==0) {
+            MainBoard[2][0]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square8" && MainBoard[2][1]==0) {
+            MainBoard[2][1]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square9" && MainBoard[2][2]==0) {
+            MainBoard[2][2]=1;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+    }
+
+
+
+
+
+    if ((Turn%2!=0 && document.getElementById("startButton").style.display=="none") && Message!="It's a draw!" && Message!="X has won!" && Message!="O has won!") {
+        if (Square=="Square1" && MainBoard[0][0]==0) {
+            MainBoard[0][0]=2;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square2" && MainBoard[0][1]==0) {
+            MainBoard[0][1]=2;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square3" && MainBoard[0][2]==0) {
+            MainBoard[0][2]=2;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square4" && MainBoard[1][0]==0) {
+            MainBoard[1][0]=2;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square5" && MainBoard[1][1]==0) {
+            MainBoard[1][1]=2;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square6" && MainBoard[1][2]==0) {
+            MainBoard[1][2]=2;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square7" && MainBoard[2][0]==0) {
+            MainBoard[2][0]=2;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square8" && MainBoard[2][1]==0) {
+            MainBoard[2][1]=2;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+        else if (Square=="Square9" && MainBoard[2][2]==0) {
+            MainBoard[2][2]=2;
+            Turn+=1;
+            UpdateTicTacToeBoardUI(MainBoard);
+        }
+    }
+}
+
+
+
+
+
+
+
+function UpdateTicTacToeBoardUI(Board) {
+    /*
+    Board Matrix
+
+    Board=[
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+    ]
+    */ 
+
+    //Updating the main board
+    MainBoard=Board;
+
+    //Checking the game's result
+    CheckForWinner(Board);
+
+    //Updating the board for the player's occupancy
+    if (Board[0][0]==1) {
+        document.getElementById("GamePieceX1").style.display="block";
+    }
+    if (Board[0][1]==1) {
+        document.getElementById("GamePieceX2").style.display="block";
+    }
+    if (Board[0][2]==1) {
+        document.getElementById("GamePieceX3").style.display="block";
+    }
+    if (Board[1][0]==1) {
+        document.getElementById("GamePieceX4").style.display="block";
+    }
+    if (Board[1][1]==1) {
+        document.getElementById("GamePieceX5").style.display="block";
+    }
+    if (Board[1][2]==1) {
+        document.getElementById("GamePieceX6").style.display="block";
+    }
+    if (Board[2][0]==1) {
+        document.getElementById("GamePieceX7").style.display="block";
+    }
+    if (Board[2][1]==1) {
+        document.getElementById("GamePieceX8").style.display="block";
+    }
+    if (Board[2][2]==1) {
+        document.getElementById("GamePieceX9").style.display="block";
+    }
+
+
+
+
+
+
+    //Updating the board for the computer's occupancy
+    if (Board[0][0]==2) {
+        document.getElementById("GamePieceO1").style.display="block";
+    }
+    if (Board[0][1]==2) {
+        document.getElementById("GamePieceO2").style.display="block";
+    }
+    if (Board[0][2]==2) {
+        document.getElementById("GamePieceO3").style.display="block";
+    }
+    if (Board[1][0]==2) {
+        document.getElementById("GamePieceO4").style.display="block";
+    }
+    if (Board[1][1]==2) {
+        document.getElementById("GamePieceO5").style.display="block";
+    }
+    if (Board[1][2]==2) {
+        document.getElementById("GamePieceO6").style.display="block";
+    }
+    if (Board[2][0]==2) {
+        document.getElementById("GamePieceO7").style.display="block";
+    }
+    if (Board[2][1]==2) {
+        document.getElementById("GamePieceO8").style.display="block";
+    }
+    if (Board[2][2]==2) {
+        document.getElementById("GamePieceO9").style.display="block";
+    }
+
+
+
+
+
+
+    //Updating the board for no occupancy (to restart the game)
+    if (Board[0][0]==0) {
+        document.getElementById("GamePieceO1").style.display="none";
+        document.getElementById("GamePieceX1").style.display="none";
+    }
+    if (Board[0][1]==0) {
+        document.getElementById("GamePieceO2").style.display="none";
+        document.getElementById("GamePieceX2").style.display="none";
+    }
+    if (Board[0][2]==0) {
+        document.getElementById("GamePieceO3").style.display="none";
+        document.getElementById("GamePieceX3").style.display="none";
+    }
+    if (Board[1][0]==0) {
+        document.getElementById("GamePieceO4").style.display="none";
+        document.getElementById("GamePieceX4").style.display="none";
+    }
+    if (Board[1][1]==0) {
+        document.getElementById("GamePieceO5").style.display="none";
+        document.getElementById("GamePieceX5").style.display="none";
+    }
+    if (Board[1][2]==0) {
+        document.getElementById("GamePieceO6").style.display="none";
+        document.getElementById("GamePieceX6").style.display="none";
+    }
+    if (Board[2][0]==0) {
+        document.getElementById("GamePieceO7").style.display="none";
+        document.getElementById("GamePieceX7").style.display="none";
+    }
+    if (Board[2][1]==0) {
+        document.getElementById("GamePieceO8").style.display="none";
+        document.getElementById("GamePieceX8").style.display="none";
+    }
+    if (Board[2][2]==0) {
+        document.getElementById("GamePieceO9").style.display="none";
+        document.getElementById("GamePieceX9").style.display="none";
+    }
+}
+
+function UpdateModal(number) {
+    if (number==2) {
+        document.getElementById("Message").innerHTML="O has won!";
+        document.getElementById("Modal-box").style.display="block";
+
+        var score=getCookie("score_O");
+        if (score!="") {score_O=parseInt(score);}
+        document.getElementById("score_O").innerHTML=(score_O+1).toString();
+
+        create_update_cookie("score_O", score_O+1, 365);
+        setTimeout(closeModal, 1000);
+    }
+    if(number==1) {
+        document.getElementById("Message").innerHTML="X has won!";
+        document.getElementById("Modal-box").style.display="block";
+
+        var score=getCookie("score_X");
+        if (score!="") {score_X=parseInt(score)};
+        document.getElementById("score_X").innerHTML=(score_X+1).toString();
+
+        create_update_cookie("score_X", score_X+1, 365);
+        setTimeout(closeModal, 1000);
+    }
+}
+
+
+function CheckForWinner(Board) {
+
+    var row1=Board[0];
+    var row2=Board[1];
+    var row3=Board[2];
+
+    var column1=[Board[0][0], Board[1][0], Board[2][0]]
+    var column2=[Board[0][1], Board[1][1], Board[2][1]]
+    var column3=[Board[0][2], Board[1][2], Board[2][2]]
+
+    var diagnol1=[Board[0][0], Board[1][1], Board[2][2]]
+    var diagnol2=[Board[0][2], Board[1][1], Board[2][0]]
+
+    if (row1[0]==row1[1] && row1[1]==row1[2] && row1[0]!=0) {UpdateModal(row1[0]);}
+    else if (row2[0]==row2[1] && row2[1]==row2[2] && row2[0]!=0) {UpdateModal(row2[0]);}
+    else if (row3[0]==row3[1] && row3[1]==row3[2] && row3[0]!=0) {UpdateModal(row3[0]);}
+
+    else if (column1[0]==column1[1] && column1[1]==column1[2] && column1[0]!=0) {UpdateModal(column1[0]);}
+    else if (column2[0]==column2[1] && column2[1]==column2[2] && column2[0]!=0) {UpdateModal(column2[0]);}
+    else if (column3[0]==column3[1] && column3[1]==column3[2] && column3[0]!=0) {UpdateModal(column3[0]);}
+
+    else if (diagnol1[0]==diagnol1[1] && diagnol1[1]==diagnol1[2] && diagnol1[0]!=0) {UpdateModal(diagnol1[0]);}
+    else if (diagnol2[0]==diagnol2[1] && diagnol2[1]==diagnol2[2] && diagnol2[0]!=0) {UpdateModal(diagnol2[0])}
+
+    else if(row1.includes(0)==false && row2.includes(0)==false && row3.includes(0)==false) {
+        document.getElementById("Message").innerHTML="It's a draw!";
+        document.getElementById("Modal-box").style.display="block";
+        setTimeout(closeModal, 1000);
+    }
+}
+
+</script>
+
+
+</body>
+</html>
