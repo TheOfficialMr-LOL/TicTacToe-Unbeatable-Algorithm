@@ -3,9 +3,10 @@ import sys
 """
 DISCLAIMER
 
-This program has been developed and tested by Aeshan Jiniwal and has entirely been written from scratch meaning that nothing from this workplace is subjected to copyright 
+This program has been developed and tested by TheOfficialMr_LOL and has entirely been written from scratch meaning that nothing from this workplace is subjected to copyright 
 inculding the algorithm developed which is entirely unique. 
 
+© 2025 TheOfficialMr_LOL. All rights reserved.
 """
 
 
