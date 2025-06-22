@@ -7,3 +7,5 @@ This algorithm has been developed from scratch and is entirely unique.
 
 Link to game
 https://tictactoe-unbeatable.azurewebsites.net/
+
+DISCLAIMER: Incompatible with Safari
